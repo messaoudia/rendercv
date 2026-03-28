@@ -27,6 +27,7 @@ fontawesome_icons = {
     "X": "x-twitter",
     "Bluesky": "bluesky",
     "location": "location-dot",
+    "nationality": "earth-africa",
     "email": "envelope",
     "phone": "phone",
     "website": "link",
@@ -137,6 +138,15 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
                     )
                 )
 
+            case "nationality":
+                url = None
+                body = str(rendercv_model.cv.nationality)
+                connections.append(
+                    Connection(
+                        fontawesome_icon=fontawesome_icons[key], url=None, body=body
+                    )
+                )
+
             case "social_networks":
                 if rendercv_model.cv.social_networks is None:
                     raise RenderCVInternalError(
@@ -144,7 +154,9 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
                     )
                 for social_network in rendercv_model.cv.social_networks:
                     url = social_network.url
-                    if rendercv_model.design.header.connections.display_urls_instead_of_usernames:
+                    if (
+                        rendercv_model.design.header.connections.display_urls_instead_of_usernames
+                    ):
                         body = clean_url(url)
                     else:
                         match social_network.network:

@@ -41,6 +41,10 @@ class Cv(BaseModelWithoutExtraKeys):
         default=None,
         examples=["New York, NY", "London, UK", "Istanbul, Türkiye"],
     )
+    nationality: str | None = pydantic.Field(
+        default=None,
+        examples=["Française", "Canadian", "German"],
+    )
     email: pydantic.EmailStr | list[pydantic.EmailStr] | None = pydantic.Field(
         default=None,
         description="You can provide multiple emails as a list.",

@@ -51,19 +51,19 @@ classifiers = [
 dependencies = [
   "Jinja2>=3.1.6",  # Generate Typst and Markdown files
   "markdown>=3.10.2",  # Convert Markdown to HTML
+  "packaging>=26.0",  # For version checking
   "phonenumbers>=9.0.24",  # Validate phone numbers
   "pydantic-extra-types>=2.11.0",  # Validate extra types
   "pydantic[email]>=2.12.5",  # Validate and parse input files
+  "rendercv-fonts>=0.5.1",  # Font files for RenderCV
   "ruamel.yaml>=0.19.1",  # Parse YAML files
+  "typst>=0.14.8",  # Render PDF from Typst source files
 ]
 
 [project.optional-dependencies]
 full = [
   "typer>=0.24.1",  # Command-line interface
   "watchdog>=6.0.0",  # Monitor files for updates
-  "typst>=0.14.8",  # Render PDF from Typst source files
-  "rendercv-fonts>=0.5.1",  # Font files for RenderCV
-  "packaging>=26.0",  # For version checking
 ]
 
 [project.urls]

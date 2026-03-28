@@ -322,6 +322,23 @@
           ],
           "title": "Location"
         },
+        "nationality": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "examples": [
+            "Française",
+            "Canadian",
+            "German"
+          ],
+          "title": "Nationality"
+        },
         "email": {
           "default": null,
           "description": "You can provide multiple emails as a list.",
@@ -9237,6 +9254,7 @@
     },
     "rendercv__schema__models__design__font_family__FontFamily": {
       "enum": [
+        "Arial",
         "DejaVu Sans Mono",
         "EB Garamond",
         "Fontin",

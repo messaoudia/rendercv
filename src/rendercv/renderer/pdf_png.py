@@ -227,6 +227,7 @@ def get_typst_compiler(
         root=root,
         font_paths=[
             *rendercv_fonts.paths_to_font_folders,
+            pathlib.Path(__file__).parent / "fonts",
             (
                 input_file_path.parent / "fonts"
                 if input_file_path
