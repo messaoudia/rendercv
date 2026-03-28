@@ -27,7 +27,7 @@ fontawesome_icons = {
     "X": "x-twitter",
     "Bluesky": "bluesky",
     "location": "location-dot",
-    "nationality": "earth-africa",
+    "nationality": "flag",
     "email": "envelope",
     "phone": "phone",
     "website": "link",
