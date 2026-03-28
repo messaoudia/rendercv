@@ -41,6 +41,31 @@
   }
 }
 
+#let sub-headline(sub-headline) = {
+  metadata("skip-content-area")
+  context {
+    let config = rendercv-config.get()
+    let typography-font-size-sub-headline = config.at("typography-font-size-sub-headline")
+    let typography-font-family-headline = config.at("typography-font-family-headline")
+    let colors-headline = config.at("colors-headline")
+    let header-alignment = config.at("header-alignment")
+    let header-space-below-headline = config.at("header-space-below-headline")
+    set text(
+      fill: colors-headline,
+      font: typography-font-family-headline,
+      size: typography-font-size-sub-headline,
+      weight: 400,
+    )
+    set align(header-alignment)
+    block(
+      sub-headline,
+      width: 100%,
+      height: auto,
+    )
+    v(header-space-below-headline, weak: true)
+  }
+}
+
 #let connections(..connections) = {
   metadata("skip-content-area")
 
@@ -403,6 +428,7 @@
   typography-font-size-body: 10pt,
   typography-font-size-name: 30pt,
   typography-font-size-headline: 10pt,
+  typography-font-size-sub-headline: 9pt,
   typography-font-size-connections: 10pt,
   typography-font-size-section-titles: 1.4em,
   typography-small-caps-name: false,
@@ -492,6 +518,7 @@
     typography-font-size-body: typography-font-size-body,
     typography-font-size-name: typography-font-size-name,
     typography-font-size-headline: typography-font-size-headline,
+    typography-font-size-sub-headline: typography-font-size-sub-headline,
     typography-font-size-connections: typography-font-size-connections,
     typography-font-size-section-titles: typography-font-size-section-titles,
     typography-small-caps-name: typography-small-caps-name,

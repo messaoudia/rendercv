@@ -5,6 +5,7 @@ from typing import Literal, get_args
 import pydantic
 import pydantic_core
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
+from pydantic.json_schema import SkipJsonSchema
 
 from ...pydantic_error_handling import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
@@ -53,9 +54,22 @@ url_dictionary: dict[SocialNetworkName, str] = {
 
 
 class SocialNetwork(BaseModelWithoutExtraKeys):
-    network: SocialNetworkName = pydantic.Field()
+    network: SocialNetworkName | SkipJsonSchema[str] = pydantic.Field()
     username: str = pydantic.Field(
         examples=["john_doe", "@johndoe@mastodon.social", "12345/john-doe"],
+    )
+    url: pydantic.HttpUrl | None = pydantic.Field(
+        default=None,
+        description=(
+            "Required for custom networks. Auto-generated for built-in networks."
+        ),
+    )
+    fontawesome_icon: str | None = pydantic.Field(
+        default=None,
+        description=(
+            "FontAwesome icon name (e.g. 'briefcase'). Required for custom networks."
+            " See https://fontawesome.com/search for available icons (Free/Solid only)."
+        ),
     )
 
     @pydantic.field_validator("username")
@@ -66,7 +80,7 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
         Why:
             Different platforms have specific username formats (e.g., Mastodon needs
             @user@domain, StackOverflow needs id/name). Early validation prevents
-            broken URL generation.
+            broken URL generation. Custom networks skip all username validation.
 
         Args:
             username: Username to validate.
@@ -82,6 +96,10 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
             return username
 
         network = info.data["network"]
+
+        # Custom networks have no format requirements.
+        if network not in available_social_networks:
+            return username
 
         match network:
             case "Mastodon":
@@ -152,34 +170,48 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
         return username
 
     @pydantic.model_validator(mode="after")
-    def validate_generated_url(self) -> "SocialNetwork":
-        """Validate generated URL is well-formed.
+    def validate_network_config(self) -> "SocialNetwork":
+        """Validate that custom networks have required fields, built-ins have valid URLs.
 
         Why:
-            URL generation from username might produce invalid URLs if username
-            format is wrong. Post-validation check catches edge cases.
+            Custom networks need explicit url and fontawesome_icon since they cannot
+            be auto-generated. Built-in networks auto-generate their URL from username,
+            which needs to be validated as well-formed.
 
         Returns:
             Validated social network instance.
         """
-        url_validator.validate_strings(self.url)
+        if self.network not in available_social_networks:
+            if self.url is None:
+                raise pydantic_core.PydanticCustomError(
+                    CustomPydanticErrorTypes.other.value,
+                    f'Custom network "{self.network}" requires a `url` field.',
+                )
+            if self.fontawesome_icon is None:
+                raise pydantic_core.PydanticCustomError(
+                    CustomPydanticErrorTypes.other.value,
+                    f'Custom network "{self.network}" requires a `fontawesome_icon`'
+                    " field. See https://fontawesome.com/search (Free/Solid icons).",
+                )
+        else:
+            url_validator.validate_strings(self.profile_url)
         return self
 
     @functools.cached_property
-    def url(self) -> str:
-        """Generate profile URL from network and username.
+    def profile_url(self) -> str:
+        """Generate or return the profile URL.
 
         Why:
-            Users provide network+username for brevity. Property generates full
-            URLs with platform-specific logic (e.g., Mastodon domain extraction).
+            Built-in networks auto-generate URLs from username + base URL.
+            Custom networks use the user-provided url field directly.
+            Cached to avoid repeated computation for repeated template access.
 
         Returns:
-            Complete profile URL.
+            Complete profile URL as string.
         """
+        if self.network not in available_social_networks:
+            return str(self.url)
         if self.network == "Mastodon":
             _, username, domain = self.username.split("@")
-            url = f"https://{domain}/@{username}"
-        else:
-            url = url_dictionary[self.network] + self.username
-
-        return url
+            return f"https://{domain}/@{username}"
+        return url_dictionary[self.network] + self.username

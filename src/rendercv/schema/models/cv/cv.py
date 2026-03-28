@@ -37,6 +37,10 @@ class Cv(BaseModelWithoutExtraKeys):
         default=None,
         examples=["Software Engineer", "Data Scientist", "Product Manager"],
     )
+    sub_headline: str | None = pydantic.Field(
+        default=None,
+        examples=["Open to opportunities", "Available from January 2025"],
+    )
     location: str | None = pydantic.Field(
         default=None,
         examples=["New York, NY", "London, UK", "Istanbul, Türkiye"],

@@ -168,6 +168,10 @@ class FontSize(BaseModelWithoutExtraKeys):
         default="10pt",
         description="The font size for the headline. The default value is `10pt`.",
     )
+    sub_headline: TypstDimension = pydantic.Field(
+        default="9pt",
+        description="The font size for the sub-headline. The default value is `9pt`.",
+    )
     connections: TypstDimension = pydantic.Field(
         default="10pt",
         description="The font size for connections. The default value is `10pt`.",

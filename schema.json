@@ -305,6 +305,22 @@
           ],
           "title": "Headline"
         },
+        "sub_headline": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "examples": [
+            "Open to opportunities",
+            "Available from January 2025"
+          ],
+          "title": "Sub Headline"
+        },
         "location": {
           "anyOf": [
             {
@@ -3564,7 +3580,8 @@
       "additionalProperties": false,
       "properties": {
         "network": {
-          "$ref": "#/$defs/SocialNetworkName"
+          "$ref": "#/$defs/SocialNetworkName",
+          "title": "Network"
         },
         "username": {
           "examples": [
@@ -3574,6 +3591,35 @@
           ],
           "title": "Username",
           "type": "string"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Required for custom networks. Auto-generated for built-in networks.",
+          "title": "Url"
+        },
+        "fontawesome_icon": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "FontAwesome icon name (e.g. 'briefcase'). Required for custom networks. See https://fontawesome.com/search for available icons (Free/Solid only).",
+          "title": "Fontawesome Icon"
         }
       },
       "required": [
@@ -3601,7 +3647,8 @@
         "Leetcode",
         "X",
         "Bluesky",
-        "Reddit"
+        "Reddit",
+        "Malt"
       ],
       "type": "string"
     },
@@ -5893,6 +5940,11 @@
           "default": "10pt",
           "description": "The font size for the headline. The default value is `10pt`."
         },
+        "sub_headline": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "9pt",
+          "description": "The font size for the sub-headline. The default value is `9pt`."
+        },
         "connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "10pt",
@@ -5924,6 +5976,11 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "10.5pt",
           "description": "The font size for the headline. The default value is `10.5pt`."
+        },
+        "sub_headline": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "9pt",
+          "description": "The font size for the sub-headline. The default value is `9pt`."
         },
         "connections": {
           "$ref": "#/$defs/TypstDimension",
@@ -5957,6 +6014,11 @@
           "default": "10pt",
           "description": "The font size for the headline. The default value is `10pt`."
         },
+        "sub_headline": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "9pt",
+          "description": "The font size for the sub-headline. The default value is `9pt`."
+        },
         "connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "10pt",
@@ -5988,6 +6050,11 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "10pt",
           "description": "The font size for the headline. The default value is `10pt`."
+        },
+        "sub_headline": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "9pt",
+          "description": "The font size for the sub-headline. The default value is `9pt`."
         },
         "connections": {
           "$ref": "#/$defs/TypstDimension",
@@ -6021,6 +6088,11 @@
           "default": "11pt",
           "description": "The font size for the headline. The default value is `11pt`."
         },
+        "sub_headline": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "9pt",
+          "description": "The font size for the sub-headline. The default value is `9pt`."
+        },
         "connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "10pt",
@@ -6053,6 +6125,11 @@
           "default": "10pt",
           "description": "The font size for the headline. The default value is `10pt`."
         },
+        "sub_headline": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "9pt",
+          "description": "The font size for the sub-headline. The default value is `9pt`."
+        },
         "connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "10pt",
@@ -6084,6 +6161,11 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "10pt",
           "description": "The font size for the headline. The default value is `10pt`."
+        },
+        "sub_headline": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "9pt",
+          "description": "The font size for the sub-headline. The default value is `9pt`."
         },
         "connections": {
           "$ref": "#/$defs/TypstDimension",

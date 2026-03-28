@@ -97,7 +97,7 @@ class TestSocialNetwork:
     )
     def test_url(self, network, username, expected_url):
         social_network = SocialNetwork(network=network, username=username)
-        assert str(social_network.url) == expected_url
+        assert str(social_network.profile_url) == expected_url
 
     @settings(deadline=None)
     @given(
@@ -119,9 +119,9 @@ class TestSocialNetwork:
     ) -> None:
         username = f"@{user}@{domain}"
         sn = SocialNetwork(network="Mastodon", username=username)
-        assert domain in sn.url
-        assert f"/@{user}" in sn.url
-        assert sn.url.startswith("https://")
+        assert domain in sn.profile_url
+        assert f"/@{user}" in sn.profile_url
+        assert sn.profile_url.startswith("https://")
 
     @settings(deadline=None)
     @given(username=st.from_regex(r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]", fullmatch=True))
@@ -150,4 +150,4 @@ class TestSocialNetwork:
         self, network: SocialNetworkName, username: str
     ) -> None:
         sn = SocialNetwork(network=network, username=username)
-        pydantic.TypeAdapter(pydantic.HttpUrl).validate_strings(sn.url)
+        pydantic.TypeAdapter(pydantic.HttpUrl).validate_strings(sn.profile_url)

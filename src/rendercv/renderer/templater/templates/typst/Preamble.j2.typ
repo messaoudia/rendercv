@@ -35,6 +35,7 @@
   typography-font-size-body: {{ design.typography.font_size.body }},
   typography-font-size-name: {{ design.typography.font_size.name }},
   typography-font-size-headline: {{ design.typography.font_size.headline }},
+  typography-font-size-sub-headline: {{ design.typography.font_size.sub_headline }},
   typography-font-size-connections: {{ design.typography.font_size.connections }},
   typography-font-size-section-titles: {{ design.typography.font_size.section_titles }},
   typography-small-caps-name: {{ design.typography.small_caps.name|lower }},

@@ -153,7 +153,7 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
                         "social_networks key present but value is None"
                     )
                 for social_network in rendercv_model.cv.social_networks:
-                    url = social_network.url
+                    url = social_network.profile_url
                     if (
                         rendercv_model.design.header.connections.display_urls_instead_of_usernames
                     ):
@@ -166,7 +166,11 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
                                 body = social_network.username
                     connections.append(
                         Connection(
-                            fontawesome_icon=fontawesome_icons[social_network.network],
+                            fontawesome_icon=(
+                                fontawesome_icons.get(social_network.network)
+                                or social_network.fontawesome_icon
+                                or "globe"
+                            ),
                             url=url,
                             body=body,
                         )

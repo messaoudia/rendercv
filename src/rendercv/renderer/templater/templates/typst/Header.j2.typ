@@ -27,6 +27,10 @@
   #headline([{{ cv.headline }}])
 
 {% endif %}
+{% if cv.sub_headline %}
+  #sub-headline([{{ cv.sub_headline }}])
+
+{% endif %}
 #connections(
 {% for connection in cv._connections %}
   [{{ connection }}],
