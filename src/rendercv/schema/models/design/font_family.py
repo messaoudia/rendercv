@@ -25,6 +25,7 @@ available_font_families = sorted(
         "XCharter",
         "Arial",
         "Calibri",
+        "Helvetica",
     ]
 )
 
