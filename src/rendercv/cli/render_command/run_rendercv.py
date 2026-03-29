@@ -16,6 +16,7 @@ from rendercv.schema.rendercv_model_builder import (
     build_rendercv_dictionary_and_model,
     read_yaml_with_validation_errors,
 )
+from rendercv.schema.yaml_reader import _load_env_file, _substitute_env_vars
 
 from .progress_panel import ProgressPanel
 
@@ -111,10 +112,11 @@ def collect_input_file_paths(
     # (CLI flags take precedence, so skip if already provided).
     # If YAML is invalid, watch mode should still start by watching the main file.
     with contextlib.suppress(RenderCVUserValidationError):
-        main_dict = read_yaml_with_validation_errors(
-            input_file_path.read_text(encoding="utf-8"),
-            "main_yaml_file",
+        _env_vars = _load_env_file(input_file_path.parent / ".env")
+        _watch_yaml = _substitute_env_vars(
+            input_file_path.read_text(encoding="utf-8"), _env_vars
         )
+        main_dict = read_yaml_with_validation_errors(_watch_yaml, "main_yaml_file")
         rc = main_dict.get("settings", {}).get("render_command", {})
         if "design" not in files and rc.get("design"):
             files["design"] = (input_file_path.parent / rc["design"]).resolve()
@@ -138,6 +140,8 @@ def run_rendercv(
     """
     try:
         main_yaml = input_file_path.read_text(encoding="utf-8")
+        env_vars = _load_env_file(input_file_path.parent / ".env")
+        main_yaml = _substitute_env_vars(main_yaml, env_vars)
 
         _, rendercv_model = timed_step(
             "Validated the input file",
