@@ -35,6 +35,7 @@
   typography-font-size-body: 10pt,
   typography-font-size-name: 32pt,
   typography-font-size-headline: 11pt,
+  typography-font-size-sub-headline: 9pt,
   typography-font-size-connections: 10pt,
   typography-font-size-section-titles: 1.4em,
   typography-small-caps-name: false,
@@ -81,7 +82,7 @@
   date: datetime(
     year: 2026,
     month: 3,
-    day: 20,
+    day: 29,
   ),
 )
 
@@ -209,11 +210,11 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
     - Published research at top-tier venues with significant academic impact
 
-      - ICML 2022 main conference paper, cited 340+ times within two years
+    - ICML 2022 main conference paper, cited 340+ times within two years
 
-      - NeurIPS 2022 workshop paper on emergent communication protocols
+    - NeurIPS 2022 workshop paper on emergent communication protocols
 
-      - Invited journal extension in JMLR (2023)
+    - Invited journal extension in JMLR (2023)
 
   ],
 )
