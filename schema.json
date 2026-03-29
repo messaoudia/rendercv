@@ -3647,8 +3647,7 @@
         "Leetcode",
         "X",
         "Bluesky",
-        "Reddit",
-        "Malt"
+        "Reddit"
       ],
       "type": "string"
     },
@@ -9337,6 +9336,7 @@
     "rendercv__schema__models__design__font_family__FontFamily": {
       "enum": [
         "Arial",
+        "Calibri",
         "DejaVu Sans Mono",
         "EB Garamond",
         "Fontin",
