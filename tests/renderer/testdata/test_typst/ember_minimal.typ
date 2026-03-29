@@ -35,6 +35,7 @@
   typography-font-size-body: 10pt,
   typography-font-size-name: 30pt,
   typography-font-size-headline: 10.5pt,
+  typography-font-size-sub-headline: 9pt,
   typography-font-size-connections: 9pt,
   typography-font-size-section-titles: 1.25em,
   typography-small-caps-name: false,

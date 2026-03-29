@@ -1,10 +1,66 @@
+import os
 import pathlib
+import re
 
 import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 from ruamel.yaml.scanner import RoundTripScanner
 
 from rendercv.exception import RenderCVInternalError, RenderCVUserError
+
+
+def _load_env_file(env_path: pathlib.Path) -> dict[str, str]:
+    """Parse a .env file into a key/value dictionary.
+
+    Why:
+        Sensitive fields (email, phone) should not be hard-coded in YAML files
+        committed to version control. A .env file next to the YAML lets users
+        store private values separately and reference them via ${VAR} syntax.
+
+    Args:
+        env_path: Path to the .env file. Silently skipped if it does not exist.
+
+    Returns:
+        Dictionary of variable names to their string values.
+    """
+    env_vars: dict[str, str] = {}
+    if not env_path.exists():
+        return env_vars
+    for line in env_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if "=" in line:
+            key, _, value = line.partition("=")
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            env_vars[key] = value
+    return env_vars
+
+
+def _substitute_env_vars(content: str, env_vars: dict[str, str]) -> str:
+    """Replace ${VAR} placeholders with values from env_vars or os.environ.
+
+    Why:
+        Allows YAML fields like `email: ${EMAIL}` to be resolved at parse time.
+        .env file values take precedence; real environment variables serve as
+        fallback so CI/CD pipelines can inject values without a .env file.
+        Unknown variables are left unchanged so YAML parsing will surface a
+        clear validation error rather than silently inserting an empty string.
+
+    Args:
+        content: Raw YAML string potentially containing ${VAR} placeholders.
+        env_vars: Variables loaded from the .env file.
+
+    Returns:
+        YAML string with all resolvable placeholders substituted.
+    """
+
+    def replace(match: re.Match) -> str:
+        name = match.group(1)
+        return env_vars.get(name) or os.environ.get(name, match.group(0))
+
+    return re.sub(r"\$\{([^}]+)\}", replace, content)
 
 
 def read_yaml(file_path_or_contents: pathlib.Path | str) -> CommentedMap:
@@ -46,6 +102,8 @@ def read_yaml(file_path_or_contents: pathlib.Path | str) -> CommentedMap:
             raise RenderCVUserError(message)
 
         file_content = file_path_or_contents.read_text(encoding="utf-8")
+        env_vars = _load_env_file(file_path_or_contents.parent / ".env")
+        file_content = _substitute_env_vars(file_content, env_vars)
     else:
         file_content = file_path_or_contents
 

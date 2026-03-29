@@ -2,7 +2,9 @@
 cv:
   name: John Doe
   headline:
+  sub_headline:
   location: San Francisco, CA
+  nationality:
   email: john.doe@email.com
   photo:
   phone:
@@ -10,8 +12,12 @@ cv:
   social_networks:
     - network: LinkedIn
       username: rendercv
+      url:
+      fontawesome_icon:
     - network: GitHub
       username: rendercv
+      url:
+      fontawesome_icon:
   custom_connections:
   sections:
     Welcome to RenderCV:
@@ -214,6 +220,7 @@ design:
   #     body: 10pt
   #     name: 26pt
   #     headline: 10pt
+  #     sub_headline: 9pt
   #     connections: 9pt
   #     section_titles: 1.2em
   #   small_caps:
