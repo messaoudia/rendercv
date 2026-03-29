@@ -13,7 +13,7 @@ typst_built_in_font_families = {
 }
 # Fonts that ship with macOS/Windows and are resolved by Typst via system font search.
 # These are not bundled in rendercv-fonts but are available on most target platforms.
-system_font_families = {"Arial", "Calibri", "Helvetica"}
+system_font_families = {"Arial", "Calibri", "Georgia", "Helvetica"}
 
 fork_fonts_dir = (
     pathlib.Path(__file__).parents[4]

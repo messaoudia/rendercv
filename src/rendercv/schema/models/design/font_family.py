@@ -26,6 +26,7 @@ available_font_families = sorted(
         "Arial",
         "Calibri",
         "Helvetica",
+        "Georgia",
     ]
 )
 
